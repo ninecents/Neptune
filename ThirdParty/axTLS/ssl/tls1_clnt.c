@@ -319,7 +319,7 @@ static int send_client_key_xchg(SSL *ssl)
 
     /* rsa_ctx->bi_ctx is not thread-safe */
     SSL_CTX_LOCK(ssl->ssl_ctx->mutex);
-    enc_secret_size = RSA_encrypt(ssl->x509_ctx->rsa_ctx, premaster_secret,
+    enc_secret_size = npt__RSA_encrypt(ssl->x509_ctx->rsa_ctx, premaster_secret,
             SSL_SECRET_SIZE, &buf[6], 0);
     SSL_CTX_UNLOCK(ssl->ssl_ctx->mutex);
 
@@ -372,7 +372,7 @@ static int send_cert_verify(SSL *ssl)
     if (rsa_ctx)
     {
         SSL_CTX_LOCK(ssl->ssl_ctx->mutex);
-        n = RSA_encrypt(rsa_ctx, dgst, sizeof(dgst), &buf[6], 1);
+        n = npt__RSA_encrypt(rsa_ctx, dgst, sizeof(dgst), &buf[6], 1);
         SSL_CTX_UNLOCK(ssl->ssl_ctx->mutex);
 
         if (n == 0)

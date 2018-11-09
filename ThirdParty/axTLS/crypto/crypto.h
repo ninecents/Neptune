@@ -73,12 +73,12 @@ typedef enum
     AES_MODE_256
 } AES_MODE;
 
-void AES_set_key(AES_CTX *ctx, const uint8_t *key, 
+void npt__AES_set_key(AES_CTX *ctx, const uint8_t *key, 
         const uint8_t *iv, AES_MODE mode);
-void AES_cbc_encrypt(AES_CTX *ctx, const uint8_t *msg, 
+void npt__AES_cbc_encrypt(AES_CTX *ctx, const uint8_t *msg, 
         uint8_t *out, int length);
-void AES_cbc_decrypt(AES_CTX *ks, const uint8_t *in, uint8_t *out, int length);
-void AES_convert_key(AES_CTX *ctx);
+void npt__AES_cbc_decrypt(AES_CTX *ks, const uint8_t *in, uint8_t *out, int length);
+void npt__AES_convert_key(AES_CTX *ctx);
 
 /**************************************************************************
  * RC4 declarations 
@@ -89,8 +89,8 @@ typedef struct
     uint8_t x, y, m[256];
 } RC4_CTX;
 
-void RC4_setup(RC4_CTX *s, const uint8_t *key, int length);
-void RC4_crypt(RC4_CTX *s, const uint8_t *msg, uint8_t *data, int length);
+void npt__RC4_setup(RC4_CTX *s, const uint8_t *key, int length);
+void npt__RC4_crypt(RC4_CTX *s, const uint8_t *msg, uint8_t *data, int length);
 
 /**************************************************************************
  * SHA256 declarations 
@@ -116,9 +116,9 @@ typedef struct
     uint8_t Message_Block[64];      /* 512-bit message blocks */
 } SHA1_CTX;
 
-void SHA1_Init(SHA1_CTX *);
-void SHA1_Update(SHA1_CTX *, const uint8_t * msg, int len);
-void SHA1_Final(uint8_t *digest, SHA1_CTX *);
+void npt__SHA1_Init(SHA1_CTX *);
+void npt__SHA1_Update(SHA1_CTX *, const uint8_t * msg, int len);
+void npt__SHA1_Final(uint8_t *digest, SHA1_CTX *);
 
 /**************************************************************************
  * MD2 declarations 
@@ -134,9 +134,9 @@ typedef struct
     int left;                   /* amount of data in buffer */
 } MD2_CTX;
 
-EXP_FUNC void STDCALL MD2_Init(MD2_CTX *ctx);
-EXP_FUNC void STDCALL MD2_Update(MD2_CTX *ctx, const uint8_t *input, int ilen);
-EXP_FUNC void STDCALL MD2_Final(uint8_t *digest, MD2_CTX *ctx);
+EXP_FUNC void STDCALL npt__MD2_Init(MD2_CTX *ctx);
+EXP_FUNC void STDCALL npt__MD2_Update(MD2_CTX *ctx, const uint8_t *input, int ilen);
+EXP_FUNC void STDCALL npt__MD2_Final(uint8_t *digest, MD2_CTX *ctx);
 
 /**************************************************************************
  * MD5 declarations 
@@ -151,16 +151,16 @@ typedef struct
   uint8_t buffer[64];       /* input buffer */
 } MD5_CTX;
 
-EXP_FUNC void STDCALL MD5_Init(MD5_CTX *);
-EXP_FUNC void STDCALL MD5_Update(MD5_CTX *, const uint8_t *msg, int len);
-EXP_FUNC void STDCALL MD5_Final(uint8_t *digest, MD5_CTX *);
+EXP_FUNC void STDCALL npt__MD5_Init(MD5_CTX *);
+EXP_FUNC void STDCALL npt__MD5_Update(MD5_CTX *, const uint8_t *msg, int len);
+EXP_FUNC void STDCALL npt__MD5_Final(uint8_t *digest, MD5_CTX *);
 
 /**************************************************************************
  * HMAC declarations 
  **************************************************************************/
-void hmac_md5(const uint8_t *msg, int length, const uint8_t *key, 
+void npt__hmac_md5(const uint8_t *msg, int length, const uint8_t *key, 
         int key_len, uint8_t *digest);
-void hmac_sha1(const uint8_t *msg, int length, const uint8_t *key, 
+void npt__hmac_sha1(const uint8_t *msg, int length, const uint8_t *key, 
         int key_len, uint8_t *digest);
 
 /**************************************************************************
@@ -183,7 +183,7 @@ typedef struct
     BI_CTX *bi_ctx;
 } RSA_CTX;
 
-void RSA_priv_key_new(RSA_CTX **rsa_ctx, 
+void npt__RSA_priv_key_new(RSA_CTX **rsa_ctx, 
         const uint8_t *modulus, int mod_len,
         const uint8_t *pub_exp, int pub_len,
         const uint8_t *priv_exp, int priv_len
@@ -195,20 +195,20 @@ void RSA_priv_key_new(RSA_CTX **rsa_ctx,
         const uint8_t *qInv, int qInv_len
 #endif
         );
-void RSA_pub_key_new(RSA_CTX **rsa_ctx, 
+void npt__RSA_pub_key_new(RSA_CTX **rsa_ctx, 
         const uint8_t *modulus, int mod_len,
         const uint8_t *pub_exp, int pub_len);
-void RSA_free(RSA_CTX *ctx);
-int RSA_decrypt(const RSA_CTX *ctx, const uint8_t *in_data, uint8_t *out_data,
+void npt__RSA_free(RSA_CTX *ctx);
+int npt__RSA_decrypt(const RSA_CTX *ctx, const uint8_t *in_data, uint8_t *out_data,
         int is_decryption);
-bigint *RSA_private(const RSA_CTX *c, bigint *bi_msg);
+bigint *npt__RSA_private(const RSA_CTX *c, bigint *bi_msg);
 #if defined(CONFIG_SSL_CERT_VERIFICATION) || defined(CONFIG_SSL_GENERATE_X509_CERT)
-bigint *RSA_sign_verify(BI_CTX *ctx, const uint8_t *sig, int sig_len,
+bigint *npt__RSA_sign_verify(BI_CTX *ctx, const uint8_t *sig, int sig_len,
         bigint *modulus, bigint *pub_exp);
-bigint *RSA_public(const RSA_CTX * c, bigint *bi_msg);
-int RSA_encrypt(const RSA_CTX *ctx, const uint8_t *in_data, uint16_t in_len, 
+bigint *npt__RSA_public(const RSA_CTX * c, bigint *bi_msg);
+int npt__RSA_encrypt(const RSA_CTX *ctx, const uint8_t *in_data, uint16_t in_len, 
         uint8_t *out_data, int is_signing);
-void RSA_print(const RSA_CTX *ctx);
+void npt__RSA_print(const RSA_CTX *ctx);
 #endif
 
 /**************************************************************************

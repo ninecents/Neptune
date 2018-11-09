@@ -86,9 +86,9 @@ static const cipher_info_t cipher_info[NUM_PROTOCOLS] =
         2*(SHA1_SIZE+16),               /* key block size */
         0,                              /* no padding */
         SHA1_SIZE,                      /* digest size */
-        hmac_sha1,                      /* hmac algorithm */
-        (crypt_func)RC4_crypt,          /* encrypt */
-        (crypt_func)RC4_crypt           /* decrypt */
+        npt__hmac_sha1,                      /* hmac algorithm */
+        (crypt_func)npt__RC4_crypt,          /* encrypt */
+        (crypt_func)npt__RC4_crypt           /* decrypt */
     },
 };
 #else
@@ -101,9 +101,9 @@ static const cipher_info_t cipher_info[NUM_PROTOCOLS] =
         2*(SHA1_SIZE+16+16),            /* key block size */
         16,                             /* block padding size */
         SHA1_SIZE,                      /* digest size */
-        hmac_sha1,                      /* hmac algorithm */
-        (crypt_func)AES_cbc_encrypt,    /* encrypt */
-        (crypt_func)AES_cbc_decrypt     /* decrypt */
+        npt__hmac_sha1,                      /* hmac algorithm */
+        (crypt_func)npt__AES_cbc_encrypt,    /* encrypt */
+        (crypt_func)npt__AES_cbc_decrypt     /* decrypt */
     },
     {   /* AES256-SHA */
         SSL_AES256_SHA,                 /* AES256-SHA */
@@ -112,9 +112,9 @@ static const cipher_info_t cipher_info[NUM_PROTOCOLS] =
         2*(SHA1_SIZE+32+16),            /* key block size */
         16,                             /* block padding size */
         SHA1_SIZE,                      /* digest size */
-        hmac_sha1,                      /* hmac algorithm */
-        (crypt_func)AES_cbc_encrypt,    /* encrypt */
-        (crypt_func)AES_cbc_decrypt     /* decrypt */
+        npt__hmac_sha1,                      /* hmac algorithm */
+        (crypt_func)npt__AES_cbc_encrypt,    /* encrypt */
+        (crypt_func)npt__AES_cbc_decrypt     /* decrypt */
     },       
     {   /* RC4-SHA */
         SSL_RC4_128_SHA,                /* RC4-SHA */
@@ -123,9 +123,9 @@ static const cipher_info_t cipher_info[NUM_PROTOCOLS] =
         2*(SHA1_SIZE+16),               /* key block size */
         0,                              /* no padding */
         SHA1_SIZE,                      /* digest size */
-        hmac_sha1,                      /* hmac algorithm */
-        (crypt_func)RC4_crypt,          /* encrypt */
-        (crypt_func)RC4_crypt           /* decrypt */
+        npt__hmac_sha1,                      /* hmac algorithm */
+        (crypt_func)npt__RC4_crypt,          /* encrypt */
+        (crypt_func)npt__RC4_crypt           /* decrypt */
     },
     /*
      * This protocol is from SSLv2 days and is unlikely to be used - but was
@@ -138,9 +138,9 @@ static const cipher_info_t cipher_info[NUM_PROTOCOLS] =
         2*(MD5_SIZE+16),                /* key block size */
         0,                              /* no padding */
         MD5_SIZE,                       /* digest size */
-        hmac_md5,                       /* hmac algorithm */
-        (crypt_func)RC4_crypt,          /* encrypt */
-        (crypt_func)RC4_crypt           /* decrypt */
+        npt__hmac_md5,                       /* hmac algorithm */
+        (crypt_func)npt__RC4_crypt,          /* encrypt */
+        (crypt_func)npt__RC4_crypt           /* decrypt */
     },
 };
 #endif
@@ -250,7 +250,7 @@ EXP_FUNC void STDCALL ssl_ctx_free(SSL_CTX *ssl_ctx)
 #endif
     /* GBG: removed - ssl_ctx->chain_length = 0; */
     SSL_CTX_MUTEX_DESTROY(ssl_ctx->mutex);
-    RSA_free(ssl_ctx->rsa_ctx);
+    npt__RSA_free(ssl_ctx->rsa_ctx);
     RNG_terminate();
     free(ssl_ctx);
 }
@@ -834,8 +834,8 @@ static int verify_digest(SSL *ssl, int mode, const uint8_t *buf, int read_len)
  */
 void add_packet(SSL *ssl, const uint8_t *pkt, int len)
 {
-    MD5_Update(&ssl->dc->md5_ctx, pkt, len);
-    SHA1_Update(&ssl->dc->sha1_ctx, pkt, len);
+    npt__MD5_Update(&ssl->dc->md5_ctx, pkt, len);
+    npt__SHA1_Update(&ssl->dc->sha1_ctx, pkt, len);
 }
 
 /**
@@ -847,9 +847,9 @@ static void p_hash_md5(const uint8_t *sec, int sec_len,
     uint8_t a1[128];
 
     /* A(1) */
-    hmac_md5(seed, seed_len, sec, sec_len, a1);
+    npt__hmac_md5(seed, seed_len, sec, sec_len, a1);
     memcpy(&a1[MD5_SIZE], seed, seed_len);
-    hmac_md5(a1, MD5_SIZE+seed_len, sec, sec_len, out);
+    npt__hmac_md5(a1, MD5_SIZE+seed_len, sec, sec_len, out);
 
     while (olen > MD5_SIZE)
     {
@@ -858,11 +858,11 @@ static void p_hash_md5(const uint8_t *sec, int sec_len,
         olen -= MD5_SIZE;
 
         /* A(N) */
-        hmac_md5(a1, MD5_SIZE, sec, sec_len, a2);
+        npt__hmac_md5(a1, MD5_SIZE, sec, sec_len, a2);
         memcpy(a1, a2, MD5_SIZE);
 
         /* work out the actual hash */
-        hmac_md5(a1, MD5_SIZE+seed_len, sec, sec_len, out);
+        npt__hmac_md5(a1, MD5_SIZE+seed_len, sec, sec_len, out);
     }
 }
 
@@ -875,9 +875,9 @@ static void p_hash_sha1(const uint8_t *sec, int sec_len,
     uint8_t a1[128];
 
     /* A(1) */
-    hmac_sha1(seed, seed_len, sec, sec_len, a1);
+    npt__hmac_sha1(seed, seed_len, sec, sec_len, a1);
     memcpy(&a1[SHA1_SIZE], seed, seed_len);
-    hmac_sha1(a1, SHA1_SIZE+seed_len, sec, sec_len, out);
+    npt__hmac_sha1(a1, SHA1_SIZE+seed_len, sec, sec_len, out);
 
     while (olen > SHA1_SIZE)
     {
@@ -886,11 +886,11 @@ static void p_hash_sha1(const uint8_t *sec, int sec_len,
         olen -= SHA1_SIZE;
 
         /* A(N) */
-        hmac_sha1(a1, SHA1_SIZE, sec, sec_len, a2);
+        npt__hmac_sha1(a1, SHA1_SIZE, sec, sec_len, a2);
         memcpy(a1, a2, SHA1_SIZE);
 
         /* work out the actual hash */
-        hmac_sha1(a1, SHA1_SIZE+seed_len, sec, sec_len, out);
+        npt__hmac_sha1(a1, SHA1_SIZE+seed_len, sec, sec_len, out);
     }
 }
 
@@ -961,10 +961,10 @@ void finished_digest(SSL *ssl, const char *label, uint8_t *digest)
         q += strlen(label);
     }
 
-    MD5_Final(q, &md5_ctx);
+    npt__MD5_Final(q, &md5_ctx);
     q += MD5_SIZE;
     
-    SHA1_Final(q, &sha1_ctx);
+    npt__SHA1_Final(q, &sha1_ctx);
     q += SHA1_SIZE;
 
     if (label)
@@ -996,11 +996,11 @@ static void *crypt_new(SSL *ssl, uint8_t *key, uint8_t *iv, int is_decrypt)
         case SSL_AES128_SHA:
             {
                 AES_CTX *aes_ctx = (AES_CTX *)malloc(sizeof(AES_CTX));
-                AES_set_key(aes_ctx, key, iv, AES_MODE_128);
+                npt__AES_set_key(aes_ctx, key, iv, AES_MODE_128);
 
                 if (is_decrypt)
                 {
-                    AES_convert_key(aes_ctx);
+                    npt__AES_convert_key(aes_ctx);
                 }
 
                 return (void *)aes_ctx;
@@ -1009,11 +1009,11 @@ static void *crypt_new(SSL *ssl, uint8_t *key, uint8_t *iv, int is_decrypt)
         case SSL_AES256_SHA:
             {
                 AES_CTX *aes_ctx = (AES_CTX *)malloc(sizeof(AES_CTX));
-                AES_set_key(aes_ctx, key, iv, AES_MODE_256);
+                npt__AES_set_key(aes_ctx, key, iv, AES_MODE_256);
 
                 if (is_decrypt)
                 {
-                    AES_convert_key(aes_ctx);
+                    npt__AES_convert_key(aes_ctx);
                 }
 
                 return (void *)aes_ctx;
@@ -1024,7 +1024,7 @@ static void *crypt_new(SSL *ssl, uint8_t *key, uint8_t *iv, int is_decrypt)
         case SSL_RC4_128_SHA:
             {
                 RC4_CTX *rc4_ctx = (RC4_CTX *)malloc(sizeof(RC4_CTX));
-                RC4_setup(rc4_ctx, key, 16);
+                npt__RC4_setup(rc4_ctx, key, 16);
                 return (void *)rc4_ctx;
             }
     }
@@ -1694,8 +1694,8 @@ void disposable_new(SSL *ssl)
     if (ssl->dc == NULL)
     {
         ssl->dc = (DISPOSABLE_CTX *)calloc(1, sizeof(DISPOSABLE_CTX));
-        MD5_Init(&ssl->dc->md5_ctx);
-        SHA1_Init(&ssl->dc->sha1_ctx);
+        npt__MD5_Init(&ssl->dc->md5_ctx);
+        npt__SHA1_Init(&ssl->dc->sha1_ctx);
     }
 }
 
@@ -2038,7 +2038,7 @@ void DISPLAY_RSA(SSL *ssl, const RSA_CTX *rsa_ctx)
     if (!IS_SET_SSL_FLAG(SSL_DISPLAY_RSA))
         return;
 
-    RSA_print(rsa_ctx);
+    npt__RSA_print(rsa_ctx);
     TTY_FLUSH();
 }
 

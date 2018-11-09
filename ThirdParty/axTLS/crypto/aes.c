@@ -187,7 +187,7 @@ static unsigned char AES_xtime(uint32_t x)
 /**
  * Set up AES with the key/iv and cipher size.
  */
-void AES_set_key(AES_CTX *ctx, const uint8_t *key, 
+void npt__AES_set_key(AES_CTX *ctx, const uint8_t *key, 
         const uint8_t *iv, AES_MODE mode)
 {
     int i, ii;
@@ -262,7 +262,7 @@ void AES_set_key(AES_CTX *ctx, const uint8_t *key,
 /**
  * Change a key for decryption.
  */
-void AES_convert_key(AES_CTX *ctx)
+void npt__AES_convert_key(AES_CTX *ctx)
 {
     int i;
     uint32_t *k,w,t1,t2,t3,t4;
@@ -281,7 +281,7 @@ void AES_convert_key(AES_CTX *ctx)
 /**
  * Encrypt a byte sequence (with a block size 16) using the AES cipher.
  */
-void AES_cbc_encrypt(AES_CTX *ctx, const uint8_t *msg, uint8_t *out, int length)
+void npt__AES_cbc_encrypt(AES_CTX *ctx, const uint8_t *msg, uint8_t *out, int length)
 {
     int i;
     uint32_t tin[4], tout[4], iv[4];
@@ -320,7 +320,7 @@ void AES_cbc_encrypt(AES_CTX *ctx, const uint8_t *msg, uint8_t *out, int length)
 /**
  * Decrypt a byte sequence (with a block size 16) using the AES cipher.
  */
-void AES_cbc_decrypt(AES_CTX *ctx, const uint8_t *msg, uint8_t *out, int length)
+void npt__AES_cbc_decrypt(AES_CTX *ctx, const uint8_t *msg, uint8_t *out, int length)
 {
     int i;
     uint32_t tin[4], xor[4], tout[4], data[4], iv[4];

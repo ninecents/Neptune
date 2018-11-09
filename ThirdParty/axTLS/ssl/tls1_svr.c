@@ -393,7 +393,7 @@ static int process_client_key_xchg(SSL *ssl)
 
     /* rsa_ctx->bi_ctx is not thread-safe */
     SSL_CTX_LOCK(ssl->ssl_ctx->mutex);
-    premaster_size = RSA_decrypt(rsa_ctx, &buf[offset], premaster_secret, 1);
+    premaster_size = npt__RSA_decrypt(rsa_ctx, &buf[offset], premaster_secret, 1);
     SSL_CTX_UNLOCK(ssl->ssl_ctx->mutex);
 
     if (premaster_size != SSL_SECRET_SIZE || 
@@ -455,7 +455,7 @@ static int process_cert_verify(SSL *ssl)
 
     /* rsa_ctx->bi_ctx is not thread-safe */
     SSL_CTX_LOCK(ssl->ssl_ctx->mutex);
-    n = RSA_decrypt(x509_ctx->rsa_ctx, &buf[6], dgst_buf, 0);
+    n = npt__RSA_decrypt(x509_ctx->rsa_ctx, &buf[6], dgst_buf, 0);
     SSL_CTX_UNLOCK(ssl->ssl_ctx->mutex);
 
     if (n != SHA1_SIZE + MD5_SIZE)

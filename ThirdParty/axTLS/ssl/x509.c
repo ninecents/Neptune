@@ -125,18 +125,18 @@ int x509_new(const uint8_t *cert, int *len, X509_CTX **ctx)
     {
         MD5_CTX md5_ctx;
         uint8_t md5_dgst[MD5_SIZE];
-        MD5_Init(&md5_ctx);
-        MD5_Update(&md5_ctx, &cert[begin_tbs], end_tbs-begin_tbs);
-        MD5_Final(md5_dgst, &md5_ctx);
+        npt__MD5_Init(&md5_ctx);
+        npt__MD5_Update(&md5_ctx, &cert[begin_tbs], end_tbs-begin_tbs);
+        npt__MD5_Final(md5_dgst, &md5_ctx);
         x509_ctx->digest = bi_import(bi_ctx, md5_dgst, MD5_SIZE);
     }
     else if (x509_ctx->sig_type == SIG_TYPE_SHA1)
     {
         SHA1_CTX sha_ctx;
         uint8_t sha_dgst[SHA1_SIZE];
-        SHA1_Init(&sha_ctx);
-        SHA1_Update(&sha_ctx, &cert[begin_tbs], end_tbs-begin_tbs);
-        SHA1_Final(sha_dgst, &sha_ctx);
+        npt__SHA1_Init(&sha_ctx);
+        npt__SHA1_Update(&sha_ctx, &cert[begin_tbs], end_tbs-begin_tbs);
+        npt__SHA1_Final(sha_dgst, &sha_ctx);
         x509_ctx->digest = bi_import(bi_ctx, sha_dgst, SHA1_SIZE);
     }
     else if (x509_ctx->sig_type == SIG_TYPE_SHA256)
@@ -149,9 +149,9 @@ int x509_new(const uint8_t *cert, int *len, X509_CTX **ctx)
     {
         MD2_CTX md2_ctx;
         uint8_t md2_dgst[MD2_SIZE];
-        MD2_Init(&md2_ctx);
-        MD2_Update(&md2_ctx, &cert[begin_tbs], end_tbs-begin_tbs);
-        MD2_Final(md2_dgst, &md2_ctx);
+        npt__MD2_Init(&md2_ctx);
+        npt__MD2_Update(&md2_ctx, &cert[begin_tbs], end_tbs-begin_tbs);
+        npt__MD2_Final(md2_dgst, &md2_ctx);
         x509_ctx->digest = bi_import(bi_ctx, md2_dgst, MD2_SIZE);
     }
 
@@ -209,15 +209,15 @@ int x509_new(const uint8_t *cert, int *len, X509_CTX **ctx)
     /* GBG: compute the fingerprints */
     {
         MD5_CTX md5_ctx;
-        MD5_Init(&md5_ctx);
-        MD5_Update(&md5_ctx, cert, cert_size);
-        MD5_Final(x509_ctx->fingerprint.md5, &md5_ctx);
+        npt__MD5_Init(&md5_ctx);
+        npt__MD5_Update(&md5_ctx, cert, cert_size);
+        npt__MD5_Final(x509_ctx->fingerprint.md5, &md5_ctx);
     }
     {
         SHA1_CTX sha1_ctx;
-        SHA1_Init(&sha1_ctx);
-        SHA1_Update(&sha1_ctx, cert, cert_size);
-        SHA1_Final(x509_ctx->fingerprint.sha1, &sha1_ctx);
+        npt__SHA1_Init(&sha1_ctx);
+        npt__SHA1_Update(&sha1_ctx, cert, cert_size);
+        npt__SHA1_Final(x509_ctx->fingerprint.sha1, &sha1_ctx);
     }
     /* /GBG: compute the fingerprints */
         
@@ -276,7 +276,7 @@ void x509_free(X509_CTX *x509_ctx)
     }
 #endif
 
-    RSA_free(x509_ctx->rsa_ctx);
+    npt__RSA_free(x509_ctx->rsa_ctx);
     next = x509_ctx->next;
     free(x509_ctx);
     x509_free(next);        /* clear the chain */

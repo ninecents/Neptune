@@ -214,15 +214,15 @@ EXP_FUNC void STDCALL get_random(int num_rand_bytes, uint8_t *rand_data)
     ep[1] ^= ENTROPY_COUNTER2; 
 
     /* use a digested version of the entropy pool as a key */
-    MD5_Init(&rng_digest_ctx);
-    MD5_Update(&rng_digest_ctx, entropy_pool, ENTROPY_POOL_SIZE);
-    MD5_Final(digest, &rng_digest_ctx);
+    npt__MD5_Init(&rng_digest_ctx);
+    npt__MD5_Update(&rng_digest_ctx, entropy_pool, ENTROPY_POOL_SIZE);
+    npt__MD5_Final(digest, &rng_digest_ctx);
 
     /* come up with the random sequence */
-    RC4_setup(&rng_ctx, digest, MD5_SIZE); /* use as a key */
+    npt__RC4_setup(&rng_ctx, digest, MD5_SIZE); /* use as a key */
     memcpy(rand_data, entropy_pool, num_rand_bytes < ENTROPY_POOL_SIZE ?
 				num_rand_bytes : ENTROPY_POOL_SIZE);
-    RC4_crypt(&rng_ctx, rand_data, rand_data, num_rand_bytes);
+    npt__RC4_crypt(&rng_ctx, rand_data, rand_data, num_rand_bytes);
 
     /* move things along */
     for (i = ENTROPY_POOL_SIZE-1; i >= MD5_SIZE ; i--)

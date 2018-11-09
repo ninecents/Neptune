@@ -268,24 +268,24 @@ static int pem_decrypt(const char *where, const char *end,
         goto error;
 
     /* work out the key */
-    MD5_Init(&md5_ctx);
-    MD5_Update(&md5_ctx, (const uint8_t *)password, (int)strlen(password)); /* GBG */
-    MD5_Update(&md5_ctx, iv, SALT_SIZE);
-    MD5_Final(key, &md5_ctx);
+    npt__MD5_Init(&md5_ctx);
+    npt__MD5_Update(&md5_ctx, (const uint8_t *)password, (int)strlen(password)); /* GBG */
+    npt__MD5_Update(&md5_ctx, iv, SALT_SIZE);
+    npt__MD5_Final(key, &md5_ctx);
 
     if (is_aes_256)
     {
-        MD5_Init(&md5_ctx);
-        MD5_Update(&md5_ctx, key, MD5_SIZE);
-        MD5_Update(&md5_ctx, (const uint8_t *)password, (int)strlen(password)); /* GBG */
-        MD5_Update(&md5_ctx, iv, SALT_SIZE);
-        MD5_Final(&key[MD5_SIZE], &md5_ctx);
+        npt__MD5_Init(&md5_ctx);
+        npt__MD5_Update(&md5_ctx, key, MD5_SIZE);
+        npt__MD5_Update(&md5_ctx, (const uint8_t *)password, (int)strlen(password)); /* GBG */
+        npt__MD5_Update(&md5_ctx, iv, SALT_SIZE);
+        npt__MD5_Final(&key[MD5_SIZE], &md5_ctx);
     }
 
     /* decrypt using the key/iv */
-    AES_set_key(&aes_ctx, key, iv, is_aes_256 ? AES_MODE_256 : AES_MODE_128);
-    AES_convert_key(&aes_ctx);
-    AES_cbc_decrypt(&aes_ctx, ssl_obj->buf, ssl_obj->buf, ssl_obj->len);
+    npt__AES_set_key(&aes_ctx, key, iv, is_aes_256 ? AES_MODE_256 : AES_MODE_128);
+    npt__AES_convert_key(&aes_ctx);
+    npt__AES_cbc_decrypt(&aes_ctx, ssl_obj->buf, ssl_obj->buf, ssl_obj->len);
     ret = 0;
 
 error:

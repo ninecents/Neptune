@@ -80,7 +80,7 @@ static const uint8_t PI_SUBST[256] =
 /*
  * MD2 context setup
  */
-EXP_FUNC void STDCALL MD2_Init(MD2_CTX *ctx)
+EXP_FUNC void STDCALL npt__MD2_Init(MD2_CTX *ctx)
 {
     memset(ctx, 0, sizeof *ctx);
 }
@@ -113,7 +113,7 @@ static void md2_process(MD2_CTX *ctx)
 /*
  * MD2 process buffer
  */
-EXP_FUNC void STDCALL MD2_Update(MD2_CTX *ctx, const uint8_t *input, int ilen)
+EXP_FUNC void STDCALL npt__MD2_Update(MD2_CTX *ctx, const uint8_t *input, int ilen)
 {
     int fill;
 
@@ -141,7 +141,7 @@ EXP_FUNC void STDCALL MD2_Update(MD2_CTX *ctx, const uint8_t *input, int ilen)
 /*
  * MD2 final digest
  */
-EXP_FUNC void STDCALL MD2_Final(uint8_t *output, MD2_CTX *ctx)
+EXP_FUNC void STDCALL npt__MD2_Final(uint8_t *output, MD2_CTX *ctx)
 {
     int i;
     uint8_t x;

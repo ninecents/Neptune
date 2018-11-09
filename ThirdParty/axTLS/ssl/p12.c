@@ -202,23 +202,23 @@ static int p8_decrypt(const char *uni_pass, int uni_pass_len,
     }
 
     /* get the key - no IV since we are using RC4 */
-    SHA1_Init(&sha_ctx);
-    SHA1_Update(&sha_ctx, d, sizeof(d));
-    SHA1_Update(&sha_ctx, p, sizeof(p));
-    SHA1_Final(Ai, &sha_ctx);
+    npt__SHA1_Init(&sha_ctx);
+    npt__SHA1_Update(&sha_ctx, d, sizeof(d));
+    npt__SHA1_Update(&sha_ctx, p, sizeof(p));
+    npt__SHA1_Final(Ai, &sha_ctx);
 
     for (i = 1; i < iter; i++)
     {
-        SHA1_Init(&sha_ctx);
-        SHA1_Update(&sha_ctx, Ai, SHA1_SIZE);
-        SHA1_Final(Ai, &sha_ctx);
+        npt__SHA1_Init(&sha_ctx);
+        npt__SHA1_Update(&sha_ctx, Ai, SHA1_SIZE);
+        npt__SHA1_Final(Ai, &sha_ctx);
     }
 
     /* do the decryption */
     if (id == PKCS12_KEY_ID)
     {
-        RC4_setup(&rc4_ctx, Ai, 16);
-        RC4_crypt(&rc4_ctx, priv_key, priv_key, priv_key_len);
+        npt__RC4_setup(&rc4_ctx, Ai, 16);
+        npt__RC4_crypt(&rc4_ctx, priv_key, priv_key, priv_key_len);
     }
     else  /* MAC */
         memcpy(priv_key, Ai, SHA1_SIZE);
@@ -409,7 +409,7 @@ int pkcs12_decode(SSL_CTX *ssl_ctx, SSLObjLoader *ssl_obj, const char *password)
                             key, SHA1_SIZE, PKCS12_MAC_ID)) < 0)
         goto error;
 
-    hmac_sha1(auth_safes, auth_safes_len, key, SHA1_SIZE, mac);
+    npt__hmac_sha1(auth_safes, auth_safes_len, key, SHA1_SIZE, mac);
 
     if (memcmp(mac, orig_mac, SHA1_SIZE))
     {

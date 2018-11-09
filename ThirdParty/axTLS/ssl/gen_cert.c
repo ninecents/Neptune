@@ -292,7 +292,7 @@ static void gen_signature(const RSA_CTX *rsa_ctx, const uint8_t *sha_dgst,
     memcpy(block, asn1_sig, sizeof(asn1_sig));
     memcpy(&block[sizeof(asn1_sig)], sha_dgst, SHA1_SIZE);
 
-    sig_size = RSA_encrypt(rsa_ctx, block, 
+    sig_size = npt__RSA_encrypt(rsa_ctx, block, 
                             sizeof(asn1_sig) + SHA1_SIZE, enc_block, 1);
 
     buf[(*offset)++] = ASN1_BIT_STRING;
@@ -329,9 +329,9 @@ static int gen_tbs_cert(const char * dn[],
     gen_pub_key(rsa_ctx, buf, offset);
     adjust_with_size(seq_size, seq_offset, buf, offset);
 
-    SHA1_Init(&sha_ctx);
-    SHA1_Update(&sha_ctx, &buf[begin_tbs], *offset-begin_tbs);
-    SHA1_Final(sha_dgst, &sha_ctx);
+    npt__SHA1_Init(&sha_ctx);
+    npt__SHA1_Update(&sha_ctx, &buf[begin_tbs], *offset-begin_tbs);
+    npt__SHA1_Final(sha_dgst, &sha_ctx);
 
 error:
     return ret;

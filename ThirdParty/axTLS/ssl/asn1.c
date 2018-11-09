@@ -182,7 +182,7 @@ int asn1_get_private_key(const uint8_t *buf, int len, RSA_CTX **rsa_ctx)
     if (p_len <= 0 || q_len <= 0 || dP_len <= 0 || dQ_len <= 0 || qInv_len <= 0)
         return X509_INVALID_PRIV_KEY;
 
-    RSA_priv_key_new(rsa_ctx, 
+    npt__RSA_priv_key_new(rsa_ctx, 
             modulus, mod_len, pub_exp, pub_len, priv_exp, priv_len,
             p, p_len, q, p_len, dP, dP_len, dQ, dQ_len, qInv, qInv_len);
 
@@ -192,7 +192,7 @@ int asn1_get_private_key(const uint8_t *buf, int len, RSA_CTX **rsa_ctx)
     free(dQ);
     free(qInv);
 #else
-    RSA_priv_key_new(rsa_ctx, 
+    npt__RSA_priv_key_new(rsa_ctx, 
             modulus, mod_len, pub_exp, pub_len, priv_exp, priv_len);
 #endif
 
@@ -507,7 +507,7 @@ int asn1_public_key(const uint8_t *cert, int *offset, X509_CTX *x509_ctx)
     mod_len = asn1_get_int(cert, offset, &modulus);
     pub_len = asn1_get_int(cert, offset, &pub_exp);
 
-    RSA_pub_key_new(&x509_ctx->rsa_ctx, modulus, mod_len, pub_exp, pub_len);
+    npt__RSA_pub_key_new(&x509_ctx->rsa_ctx, modulus, mod_len, pub_exp, pub_len);
 
     free(modulus);
     free(pub_exp);

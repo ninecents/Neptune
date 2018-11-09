@@ -195,9 +195,6 @@
     <ClCompile Include="..\..\..\..\ThirdParty\axTLS\crypto\rsa.c">
       <Filter>Source Files\TLS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\ThirdParty\axTLS\crypto\sha1.c">
-      <Filter>Source Files\TLS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\ThirdParty\axTLS\ssl\tls1.c">
       <Filter>Source Files\TLS</Filter>
     </ClCompile>
@@ -221,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\Source\System\Bsd\NptBsdResolver.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\axTLS\crypto\sha1.c">
+      <Filter>Source Files\TLS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -40,7 +40,7 @@
 #include "os_port.h"
 #include "crypto.h"
 
-void RSA_priv_key_new(RSA_CTX **ctx, 
+void npt__RSA_priv_key_new(RSA_CTX **ctx, 
         const uint8_t *modulus, int mod_len,
         const uint8_t *pub_exp, int pub_len,
         const uint8_t *priv_exp, int priv_len
@@ -55,7 +55,7 @@ void RSA_priv_key_new(RSA_CTX **ctx,
 {
     RSA_CTX *rsa_ctx;
     BI_CTX *bi_ctx;
-    RSA_pub_key_new(ctx, modulus, mod_len, pub_exp, pub_len);
+    npt__RSA_pub_key_new(ctx, modulus, mod_len, pub_exp, pub_len);
     rsa_ctx = *ctx;
     bi_ctx = rsa_ctx->bi_ctx;
     rsa_ctx->d = bi_import(bi_ctx, priv_exp, priv_len);
@@ -75,7 +75,7 @@ void RSA_priv_key_new(RSA_CTX **ctx,
 #endif
 }
 
-void RSA_pub_key_new(RSA_CTX **ctx, 
+void npt__RSA_pub_key_new(RSA_CTX **ctx, 
         const uint8_t *modulus, int mod_len,
         const uint8_t *pub_exp, int pub_len)
 {
@@ -83,7 +83,7 @@ void RSA_pub_key_new(RSA_CTX **ctx,
     BI_CTX *bi_ctx;
 
     if (*ctx)   /* if we load multiple certs, dump the old one */
-        RSA_free(*ctx);
+        npt__RSA_free(*ctx);
 
     bi_ctx = bi_initialize();
     *ctx = (RSA_CTX *)calloc(1, sizeof(RSA_CTX));
@@ -99,7 +99,7 @@ void RSA_pub_key_new(RSA_CTX **ctx,
 /**
  * Free up any RSA context resources.
  */
-void RSA_free(RSA_CTX *rsa_ctx)
+void npt__RSA_free(RSA_CTX *rsa_ctx)
 {
     BI_CTX *bi_ctx;
     if (rsa_ctx == NULL)                /* deal with ptrs that are null */
@@ -140,7 +140,7 @@ void RSA_free(RSA_CTX *rsa_ctx)
  * @return  The number of bytes that were originally encrypted. -1 on error.
  * @see http://www.rsasecurity.com/rsalabs/node.asp?id=2125
  */
-int RSA_decrypt(const RSA_CTX *ctx, const uint8_t *in_data, 
+int npt__RSA_decrypt(const RSA_CTX *ctx, const uint8_t *in_data, 
                             uint8_t *out_data, int is_decryption)
 {
     const int byte_size = ctx->num_octets;
@@ -154,9 +154,9 @@ int RSA_decrypt(const RSA_CTX *ctx, const uint8_t *in_data,
     dat_bi = bi_import(ctx->bi_ctx, in_data, byte_size);
 #ifdef CONFIG_SSL_CERT_VERIFICATION
     decrypted_bi = is_decryption ?  /* decrypt or verify? */
-            RSA_private(ctx, dat_bi) : RSA_public(ctx, dat_bi);
+            npt__RSA_private(ctx, dat_bi) : npt__RSA_public(ctx, dat_bi);
 #else   /* always a decryption */
-    decrypted_bi = RSA_private(ctx, dat_bi);
+    decrypted_bi = npt__RSA_private(ctx, dat_bi);
 #endif
 
     /* convert to a normal block */
@@ -189,7 +189,7 @@ int RSA_decrypt(const RSA_CTX *ctx, const uint8_t *in_data,
 /**
  * Performs m = c^d mod n
  */
-bigint *RSA_private(const RSA_CTX *c, bigint *bi_msg)
+bigint *npt__RSA_private(const RSA_CTX *c, bigint *bi_msg)
 {
 #ifdef CONFIG_BIGINT_CRT
     return bi_crt(c->bi_ctx, bi_msg, c->dP, c->dQ, c->p, c->q, c->qInv);
@@ -204,7 +204,7 @@ bigint *RSA_private(const RSA_CTX *c, bigint *bi_msg)
 /**
  * Used for diagnostics.
  */
-void RSA_print(const RSA_CTX *rsa_ctx) 
+void npt__RSA_print(const RSA_CTX *rsa_ctx) 
 {
     if (rsa_ctx == NULL)
         return;
@@ -221,7 +221,7 @@ void RSA_print(const RSA_CTX *rsa_ctx)
 /**
  * Performs c = m^e mod n
  */
-bigint *RSA_public(const RSA_CTX * c, bigint *bi_msg)
+bigint *npt__RSA_public(const RSA_CTX * c, bigint *bi_msg)
 {
     c->bi_ctx->mod_offset = BIGINT_M_OFFSET;
     return bi_mod_power(c->bi_ctx, bi_msg, c->e);
@@ -231,7 +231,7 @@ bigint *RSA_public(const RSA_CTX * c, bigint *bi_msg)
  * Use PKCS1.5 for encryption/signing.
  * see http://www.rsasecurity.com/rsalabs/node.asp?id=2125
  */
-int RSA_encrypt(const RSA_CTX *ctx, const uint8_t *in_data, uint16_t in_len, 
+int npt__RSA_encrypt(const RSA_CTX *ctx, const uint8_t *in_data, uint16_t in_len, 
         uint8_t *out_data, int is_signing)
 {
     int byte_size = ctx->num_octets;
@@ -257,8 +257,8 @@ int RSA_encrypt(const RSA_CTX *ctx, const uint8_t *in_data, uint16_t in_len,
 
     /* now encrypt it */
     dat_bi = bi_import(ctx->bi_ctx, out_data, byte_size);
-    encrypt_bi = is_signing ? RSA_private(ctx, dat_bi) : 
-                              RSA_public(ctx, dat_bi);
+    encrypt_bi = is_signing ? npt__RSA_private(ctx, dat_bi) : 
+                              npt__RSA_public(ctx, dat_bi);
     bi_export(ctx->bi_ctx, encrypt_bi, out_data, byte_size);
 
     /* save a few bytes of memory */
