@@ -39,7 +39,10 @@
 #include "NptUtils.h"
 
 #if defined(NPT_CONFIG_ENABLE_ZIP)
+// extern "C"
+// {
 #include "zlib.h"
+// }
 #endif
 
 /*----------------------------------------------------------------------

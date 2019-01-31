@@ -52,8 +52,8 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>..\..\..\..\Source\Core;..\..\..\..\Source\System\Win32;..\..\..\..\ThirdParty\axTLS\config\Win32;..\..\..\..\ThirdParty\axTLS\crypto;..\..\..\..\ThirdParty\axTLS\ssl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;NPT_DEBUG;NPT_CONFIG_ENABLE_LOGGING;NPT_CONFIG_ENABLE_TLS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\Source\Core;..\..\..\..\Source\System\Win32;..\..\..\..\ThirdParty\axTLS\config\Win32;..\..\..\..\ThirdParty\axTLS\crypto;..\..\..\..\ThirdParty\axTLS\ssl;..\..\..\..\ThirdParty\zlib-1.2.8;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;NPT_DEBUG;NPT_CONFIG_ENABLE_LOGGING;NPT_CONFIG_ENABLE_TLS;NPT_CONFIG_ENABLE_ZIP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>false</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -75,8 +75,8 @@
       <Optimization>Full</Optimization>
       <OmitFramePointers>true</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>..\..\..\..\Source\Core;..\..\..\..\Source\System\Win32;..\..\..\..\ThirdParty\axTLS\config\Win32;..\..\..\..\ThirdParty\axTLS\crypto;..\..\..\..\ThirdParty\axTLS\ssl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;NPT_CONFIG_ENABLE_TLS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\Source\Core;..\..\..\..\Source\System\Win32;..\..\..\..\ThirdParty\axTLS\config\Win32;..\..\..\..\ThirdParty\axTLS\crypto;..\..\..\..\ThirdParty\axTLS\ssl;..\..\..\..\ThirdParty\zlib-1.2.8;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;NPT_CONFIG_ENABLE_TLS;NPT_CONFIG_ENABLE_ZIP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -98,6 +98,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Source\Core\NptBase64.cpp" />
     <ClCompile Include="..\..\..\..\Source\Core\NptHash.cpp" />
+    <ClCompile Include="..\..\..\..\Source\Core\NptZip.cpp" />
     <ClCompile Include="..\..\..\..\Source\System\Bsd\NptBsdResolver.cpp" />
     <ClCompile Include="..\..\..\..\Source\System\Bsd\NptBsdSockets.cpp" />
     <ClCompile Include="..\..\..\..\Source\Core\NptBufferedStreams.cpp" />
@@ -172,9 +173,20 @@
     <ClCompile Include="..\..\..\..\ThirdParty\axTLS\ssl\x509.c" />
     <ClCompile Include="..\..\..\..\Source\Data\TLS\NptTlsDefaultTrustAnchorsBase.cpp" />
     <ClCompile Include="..\..\..\..\Source\Data\TLS\NptTlsDefaultTrustAnchorsExtended.cpp" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\adler32.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\compress.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\crc32.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\deflate.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\infback.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\inffast.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\inflate.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\inftrees.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\trees.c" />
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\zutil.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Source\Core\NptHash.h" />
+    <ClInclude Include="..\..\..\..\Source\Core\NptZip.h" />
     <ClInclude Include="..\..\..\..\ThirdParty\axTLS\crypto\bigint.h" />
     <ClInclude Include="..\..\..\..\ThirdParty\axTLS\crypto\bigint_impl.h" />
     <ClInclude Include="..\..\..\..\ThirdParty\axTLS\ssl\cert.h" />
@@ -229,6 +241,17 @@
     <ClInclude Include="..\..\..\..\Source\System\Win32\NptWin32Network.h" />
     <ClInclude Include="..\..\..\..\Source\System\Win32\NptWin32Threads.h" />
     <ClInclude Include="..\..\..\..\Source\Core\NptXml.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\crc32.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\deflate.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\gzguts.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inffast.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inffixed.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inflate.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inftrees.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\trees.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\zconf.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\zlib.h" />
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\zutil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

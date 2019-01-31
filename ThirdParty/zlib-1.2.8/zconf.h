@@ -14,7 +14,7 @@
  * Even better than compiling with -DZ_PREFIX would be to use configure to set
  * this permanently in zconf.h using "./configure --zprefix".
  */
-#if 1     /* was set to #if 1 by ./configure */
+#if 0     /* was set to #if 1 by ./configure */
 #  define Z_PREFIX_SET
 
 /* all linked symbols */
@@ -408,7 +408,7 @@ typedef uLong FAR uLongf;
    typedef unsigned long z_crc_t;
 #endif
 
-#if 1    /* was set to #if 1 by ./configure */
+#if 0    /* was set to #if 1 by ./configure */
 #  define Z_HAVE_UNISTD_H
 #endif
 

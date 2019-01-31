@@ -19,6 +19,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{4e57fe18-c8bb-4de0-8d3c-4078bdcf23c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Source\Core\NptBase64.cpp">
@@ -222,6 +225,39 @@
     <ClCompile Include="..\..\..\..\ThirdParty\axTLS\crypto\sha1.c">
       <Filter>Source Files\TLS</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Source\Core\NptZip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\infback.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\zutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\ThirdParty\axTLS\crypto\bigint.h">
@@ -388,6 +424,42 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Source\Core\NptHash.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Source\Core\NptZip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\crc32.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\deflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\gzguts.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inffast.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inffixed.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\inftrees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\trees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\zconf.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\zlib.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\zutil.h">
+      <Filter>zlib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
