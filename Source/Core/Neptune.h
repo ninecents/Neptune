@@ -60,6 +60,7 @@
 #include "NptSelectableMessageQueue.h"
 #include "NptXml.h"
 #include "NptStrings.h"
+#include "NptWStrings.h"
 #include "NptArray.h"
 #include "NptList.h"
 #include "NptMap.h"

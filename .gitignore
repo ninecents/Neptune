@@ -1,26 +1,58 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
 *.o
-*.log
 *.obj
-*.idb
-*.pdb
-*.tlog
-*.exe
-*.ilk
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
 *.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#过滤数据库文件、sln解决方案文件、配置文件
 *.suo
-*.os
-*.pyc
-*.db
 *.user
-*.opendb
-.DS_Store
-.svn
-.sconsign.dblite
-Neptune.xccheckout
-Neptune.xcscmblueprint
-Build/Targets/universal-apple-macosx/build
-Build/Targets/universal-apple-macosx/Neptune.xcodeproj/project.xcworkspace/xcuserdata/gilles.xcuserdatad
-Build/Targets/universal-apple-macosx/Neptune.xcodeproj/xcuserdata
-Build/Targets/universal-apple-macosx/cov-int
-Build/Targets/x86-microsoft-win32-vs20*/*/Debug
-Build/Targets/x86-microsoft-win32-vs20*/*/Release
+*.sdf
+*.mdb
+*.ldb
+*.config
+*.pdb
+*.ilk
+*.ipdb
+*.iobj
+*.aps
+*.opensdf
+*.exp
+
+#过滤文件夹Debug,Release,obj
+.vs/
+.bak/
+ipch/
+Debug/
+Debug_cef/
+Release/
+obj/
+/cyjob/ctuVM/bin/df/out.cnut
+vm.data

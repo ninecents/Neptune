@@ -33,6 +33,8 @@
 |   includes
 +---------------------------------------------------------------------*/
 #include <math.h>
+#include <string>
+#include <Windows.h>
 
 #include "NptConfig.h"
 #include "NptTypes.h"
@@ -44,12 +46,28 @@
 #include <limits.h>
 #endif
 
+
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
 const unsigned int NPT_FORMAT_LOCAL_BUFFER_SIZE = 1024;
 const unsigned int NPT_FORMAT_BUFFER_INCREMENT  = 4096;
 const unsigned int NPT_FORMAT_BUFFER_MAX_SIZE   = 65536;
+
+std::string npt_Unicode2Ascii(std::wstring wstrsrc)
+{
+    int nLength = ::WideCharToMultiByte(CP_OEMCP, 0, wstrsrc.c_str(), -1, NULL, 0, NULL, NULL);
+    if (nLength <= 0)
+    {
+        return std::string("");
+    }
+
+    char *szbuffer = new char[nLength + 2];
+    ::WideCharToMultiByte(CP_OEMCP, 0, wstrsrc.c_str(), -1, szbuffer, nLength, NULL, NULL);
+    std::string strnew = szbuffer;
+    delete[] szbuffer;
+    return strnew;
+}
 
 /*----------------------------------------------------------------------
 |   NPT_BytesToInt64Be
@@ -467,6 +485,13 @@ NPT_ParseFloat(const char* str, float& result, bool relaxed)
     return NPT_SUCCESS;
 }
 
+extern NPT_Result NPT_ParseFloat(const wchar_t* str, float& result, bool relaxed /*= true*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseFloat(ascii.data(), result, relaxed);
+}
+
 /*----------------------------------------------------------------------
 |    NPT_ParseInteger64
 +---------------------------------------------------------------------*/
@@ -598,6 +623,20 @@ NPT_ParseInteger64(const char* str, NPT_UInt64& result, bool relaxed, NPT_Cardin
     return NPT_SUCCESS;
 }
 
+extern NPT_Result NPT_ParseInteger64(const wchar_t* str, NPT_Int64& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger64(ascii.data(), result, relaxed, chars_used);
+}
+
+extern NPT_Result NPT_ParseInteger64(const wchar_t* str, NPT_UInt64& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger64(ascii.data(), result, relaxed, chars_used);
+}
+
 /*----------------------------------------------------------------------
 |    NPT_ParseInteger32
 +---------------------------------------------------------------------*/
@@ -630,6 +669,20 @@ NPT_ParseInteger32(const char* str, NPT_UInt32& value, bool relaxed, NPT_Cardina
         value = (NPT_UInt32)value_64;
     }
     return result;
+}
+
+extern NPT_Result NPT_ParseInteger32(const wchar_t* str, NPT_Int32& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger32(ascii.data(), result, relaxed, chars_used);
+}
+
+extern NPT_Result NPT_ParseInteger32(const wchar_t* str, NPT_UInt32& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger32(ascii.data(), result, relaxed, chars_used);
 }
 
 /*----------------------------------------------------------------------
@@ -706,6 +759,34 @@ NPT_ParseInteger(const char* str, unsigned int& value, bool relaxed, NPT_Cardina
         value = (unsigned int)value_64;
     }
     return result;
+}
+
+extern NPT_Result NPT_ParseInteger(const wchar_t* str, long& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger(ascii.data(), result, relaxed, chars_used);
+}
+
+extern NPT_Result NPT_ParseInteger(const wchar_t* str, unsigned long& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger(ascii.data(), result, relaxed, chars_used);
+}
+
+extern NPT_Result NPT_ParseInteger(const wchar_t* str, int& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger(ascii.data(), result, relaxed, chars_used);
+}
+
+extern NPT_Result NPT_ParseInteger(const wchar_t* str, unsigned int& result, bool relaxed /*= true*/, NPT_Cardinal* chars_used /*= 0*/)
+{
+    std::string ascii = npt_Unicode2Ascii(str);
+
+    return NPT_ParseInteger(ascii.data(), result, relaxed, chars_used);
 }
 
 #if !defined(NPT_CONFIG_HAVE_STRCPY)

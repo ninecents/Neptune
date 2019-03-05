@@ -48,6 +48,9 @@ const NPT_UInt64 NPT_FNV1A_64_INIT = ((NPT_UInt64)0xcbf29ce484222325ULL);
 NPT_UInt64 NPT_Fnv1aHash64(const NPT_UInt8* data, NPT_Size data_size, NPT_UInt64 hash_init=NPT_FNV1A_64_INIT);
 NPT_UInt64 NPT_Fnv1aHashStr64(const char* data, NPT_UInt64 hash_init=NPT_FNV1A_64_INIT);
 
+NPT_UInt32 NPT_Fnv1aHashStr32(const wchar_t* data, NPT_UInt32 hash_init = NPT_FNV1A_32_INIT);
+NPT_UInt64 NPT_Fnv1aHashStr64(const wchar_t* data, NPT_UInt64 hash_init = NPT_FNV1A_64_INIT);
+
 /*----------------------------------------------------------------------
 |   NPT_Hash
 +---------------------------------------------------------------------*/

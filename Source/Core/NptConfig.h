@@ -235,6 +235,7 @@ typedef long NPT_PointerLong;
 #define NPT_CONFIG_HAVE_FSOPEN
 #define NPT_CONFIG_HAVE_SHARE_H
 #define NPT_vsnprintf(s,c,f,a)  _vsnprintf_s(s,c,_TRUNCATE,f,a)
+#define NPT_vsnwprintf(s,c,f,a)  _vsnwprintf_s(s,c,_TRUNCATE,f,a)
 #define NPT_snprintf(s,c,f,...) _snprintf_s(s,c,_TRUNCATE,f,__VA_ARGS__)
 #define NPT_strncpy(d,s,c)       strncpy_s(d,c+1,s,c)
 #define NPT_strcpy(d,s)          strcpy_s(d,strlen(s)+1,s)

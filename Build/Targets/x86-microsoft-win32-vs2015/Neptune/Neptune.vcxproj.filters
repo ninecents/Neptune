@@ -258,6 +258,9 @@
     <ClCompile Include="..\..\..\..\ThirdParty\zlib-1.2.8\compress.c">
       <Filter>zlib</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Source\Core\NptWStrings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\ThirdParty\axTLS\crypto\bigint.h">
@@ -460,6 +463,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\ThirdParty\zlib-1.2.8\zutil.h">
       <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Source\Core\NptWStrings.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

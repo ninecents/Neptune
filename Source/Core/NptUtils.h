@@ -111,6 +111,36 @@ extern NPT_Result
 NPT_ParseInteger64(const char* str, NPT_UInt64& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
 
 /*----------------------------------------------------------------------
+|    conversion utilities - wchar_t
++---------------------------------------------------------------------*/
+extern NPT_Result
+NPT_ParseFloat(const wchar_t* str, float& result, bool relaxed = true);
+
+extern NPT_Result
+NPT_ParseInteger(const wchar_t* str, long& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+extern NPT_Result
+NPT_ParseInteger(const wchar_t* str, unsigned long& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+extern NPT_Result
+NPT_ParseInteger(const wchar_t* str, int& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+extern NPT_Result
+NPT_ParseInteger(const wchar_t* str, unsigned int& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+extern NPT_Result
+NPT_ParseInteger32(const wchar_t* str, NPT_Int32& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+extern NPT_Result
+NPT_ParseInteger32(const wchar_t* str, NPT_UInt32& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+extern NPT_Result
+NPT_ParseInteger64(const wchar_t* str, NPT_Int64& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+extern NPT_Result
+NPT_ParseInteger64(const wchar_t* str, NPT_UInt64& result, bool relaxed = true, NPT_Cardinal* chars_used = 0);
+
+/*----------------------------------------------------------------------
 |    formatting
 +---------------------------------------------------------------------*/
 void
@@ -166,6 +196,7 @@ int NPT_FormatString(char* str, NPT_Size size, const char* format, ...);
 
 #if defined(NPT_CONFIG_HAVE_VSNPRINTF)
 #define NPT_FormatStringVN(s,c,f,a) NPT_vsnprintf(s,c,f,a)
+#define NPT_FormatWStringVN(s,c,f,a) NPT_vsnwprintf(s,c,f,a)
 #else
 extern int NPT_FormatStringVN(char *buffer, size_t count, const char *format, va_list argptr);
 #endif
@@ -190,6 +221,7 @@ extern int NPT_StringsEqualN(const char* s1, const char* s2, unsigned long size)
 
 #if defined(NPT_CONFIG_HAVE_STRLEN)
 #define NPT_StringLength(s) (NPT_Size)(strlen(s))
+#define NPT_WStringLength(s) (NPT_Size)(wcslen(s))
 #else
 extern unsigned long NPT_StringLength(const char* s);
 #endif

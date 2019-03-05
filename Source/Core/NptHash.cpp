@@ -35,6 +35,10 @@
 #include "NptTypes.h"
 #include "NptResults.h"
 #include "NptHash.h"
+#include <string>
+#include <Windows.h>
+
+std::string npt_Unicode2Ascii(std::wstring wstrsrc);
 
 /*----------------------------------------------------------------------
 |   local constants
@@ -86,6 +90,13 @@ NPT_Fnv1aHashStr32(const char* data, NPT_UInt32 hash_init)
     return hash_value;
 }
 
+NPT_UInt32 NPT_Fnv1aHashStr32(const wchar_t* data, NPT_UInt32 hash_init /*= NPT_FNV1A_32_INIT*/)
+{
+    std::string ascii = npt_Unicode2Ascii(data);
+
+    return NPT_Fnv1aHashStr32(ascii.data(), hash_init);
+}
+
 /*----------------------------------------------------------------------
 |   NPT_FnvHash32
 +---------------------------------------------------------------------*/
@@ -134,4 +145,11 @@ NPT_Fnv1aHashStr64(const char* data, NPT_UInt64 hash_init)
     }
 
     return hash_value;
+}
+
+NPT_UInt64 NPT_Fnv1aHashStr64(const wchar_t* data, NPT_UInt64 hash_init /*= NPT_FNV1A_64_INIT*/)
+{
+    std::string ascii = npt_Unicode2Ascii(data);
+
+    return NPT_Fnv1aHashStr64(ascii.data(), hash_init);
 }
