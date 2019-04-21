@@ -1865,13 +1865,13 @@ NPT_HttpServer::~NPT_HttpServer()
 |   NPT_HttpServer::Bind
 +---------------------------------------------------------------------*/
 NPT_Result
-NPT_HttpServer::Bind()
+NPT_HttpServer::Bind(bool reuse/* = true*/)
 {
     // check if we're already bound
     if (m_BoundPort != 0) return NPT_SUCCESS;
 
     // bind
-    NPT_Result result = m_Socket.Bind(NPT_SocketAddress(m_Config.m_ListenAddress, m_Config.m_ListenPort));
+    NPT_Result result = m_Socket.Bind(NPT_SocketAddress(m_Config.m_ListenAddress, m_Config.m_ListenPort), reuse);
     if (NPT_FAILED(result)) return result;
 
     // update the bound port info
@@ -1901,7 +1901,7 @@ NPT_Result
 NPT_HttpServer::SetListenPort(NPT_UInt16 port)
 {
     m_Config.m_ListenPort = port;
-    return Bind();
+    return Bind(false);
 }
 
 /*----------------------------------------------------------------------

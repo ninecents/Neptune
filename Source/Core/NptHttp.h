@@ -721,7 +721,7 @@ protected:
     };
 
     // methods
-    NPT_Result Bind();
+    NPT_Result Bind(bool reuse=true);
 
     // members
     NPT_TcpServerSocket      m_Socket;
