@@ -159,3 +159,8 @@ NPT_ThreadCallbackSlot::SendCallback(void* args)
 
     return m_Shutdown?NPT_ERROR_CALLBACK_HANDLER_SHUTDOWN:NPT_SUCCESS;
 }
+
+unsigned long NPT_Thread::GetThreadId()
+{
+	return m_Delegate->GetThreadId();
+}

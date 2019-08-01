@@ -410,6 +410,10 @@ class NPT_Win32Thread : public NPT_ThreadInterface
     NPT_Result  Wait(NPT_Timeout timeout = NPT_TIMEOUT_INFINITE);
     NPT_Result  SetPriority(int priority);
     NPT_Result  CancelBlockerSocket();
+	unsigned long GetThreadId()
+	{
+		return m_ThreadId;
+	}
 
  private:
     // methods

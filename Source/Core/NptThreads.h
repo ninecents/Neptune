@@ -224,7 +224,8 @@ class NPT_ThreadInterface: public NPT_Runnable, public NPT_Interruptible
     virtual NPT_Result Start() = 0;
     virtual NPT_Result Wait(NPT_Timeout timeout = NPT_TIMEOUT_INFINITE) = 0;
     virtual NPT_Result SetPriority(int /*priority*/) { return NPT_SUCCESS; } 
-    virtual NPT_Result CancelBlockerSocket() = 0;
+	virtual NPT_Result CancelBlockerSocket() = 0;
+	virtual unsigned long GetThreadId() = 0;
 };
 
 /*----------------------------------------------------------------------
@@ -247,6 +248,9 @@ class NPT_Thread : public NPT_ThreadInterface
 
     // cancel any socket that this thread may be waiting for
     NPT_Result CancelBlockerSocket() { return m_Delegate->CancelBlockerSocket(); }
+
+	// 获取启动线程的ID
+	unsigned long   GetThreadId();
 
     // NPT_ThreadInterface methods
     NPT_Result Start() { 
